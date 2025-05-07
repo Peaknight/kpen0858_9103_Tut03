@@ -12,8 +12,8 @@ There is an example called Smoke Particles on the official website of P5.JS. Its
 So, I think in this example, it’s vector operation, mouse movement operation these coding techniques will effectively assist my conception.
 For example, calculate the movement of the mouse x-axis and y-axis is to get the mouse rotation data, and use this to affect the rotation effect of the circular part in the picture.
 ！[Smoke affect when mouse move left](image/part2.jpg)
-！[Smoke affect when mouse move right](image/part2.1.jpg)
-！[Smoke code](image/part2.2.jpg)
+！[Smoke affect when mouse move right](image/part2_1.jpg)
+！[Smoke code](image/part2_2.png)
 ## Link of Smoke Particles
 [Smoke Particles](https://p5js.org/examples/math-and-physics-smoke-particle-system/)
 

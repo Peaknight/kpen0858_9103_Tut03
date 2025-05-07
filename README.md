@@ -1,25 +1,12 @@
 # kpen0858_9103_Tut03
-This is my first local change to the repo!
+# Quiz 8: Design Research
+## Part 1: Imaging Technique Inspiration
+**Example:** Remember Me* (Game, 2013)
+In the game "Remember Me", player can rotate the mouse or joystick to achieve the effect of memory replay, and the speed of replay can be affected by the rotation speed. 
+'Wheels of fortune' which has a lot of circular and chain-like designs. Refer to the above operations to achieve an effect of repeatedly using the mouse to rotate and slide to start the circular rotated animation in the picture?
+I think this will make the finished work more interactive and fun, like playing a game. 
 
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-###### Header 6
-
-**Bold Text** or __Bold Text__
-*Italic Text* or _Italic Text_
-
-- Item 1
-- Item 2
-  - Subitem 2.1
-  - Subitem 2.2
-
-1. First Item
-2. Second Item
-3. Third Item
-
-[Link Text](https://www.google.com
-Links to an external site.)
+![Rotated operate description in game](image/part1.jpg)
+![Rotated effect in game](image/part1.gif)
+## Part 2: Coding Technique Exploration
 

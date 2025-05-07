@@ -1,5 +1,7 @@
 # kpen0858_9103_Tut03
 # Quiz 8: Design Research
+## Group image
+![Group image](image/Group_Pic.jpg)
 ## Part 1: Imaging Technique Inspiration
 In the 2013 game __"Remember Me"__, player can __rotate the mouse or joystick to achieve the effect of memory replay__, and the speed of replay can be affected by the rotation speed. 
 __'Wheels of fortune'__ which has a lot of circular and chain-like designs. Refer to the above operations to achieve an effect of repeatedly using the mouse to rotate and slide to start the circular rotated animation in the picture?

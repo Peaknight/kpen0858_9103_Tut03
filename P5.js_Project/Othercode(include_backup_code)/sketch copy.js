@@ -1,22 +1,17 @@
-//let referenceImg; //Pictures to be copied
-
-let scaleFactor = 1;//set window scale to 1 max
+let referenceImg;
 let imgSize = 500;
-let padding = 150; 
+let padding = 50; 
 
-//An array used to store the circular area 
-//of ​​the main body and its decorate of the screen
-let basicCircles = []; //basic circle parts 
-let ringFills = [];    //Line ring decoration of the core
-let pinkCurveSet;      //Pink curve
-let innerDotRings = [];//Dot ring decoration of the core
-let dotRings = [];     //Dot ring decoration of the body to edge of circle
-let spokeRings = [];   //Spoke rings decoration
+let basicCircles = [];
+let ringFills = [];    
+let pinkCurveSet;
 
-//An array of chains that fill the gaps between circles
+let innerDotRings = [];
+let dotRings = [];
+let spokeRings = [];
+
 let chains = [];
 
-//each position dot color map
 const dotRingColorMap = {
 //line one
   "71,64"   : "#231775",
@@ -40,50 +35,44 @@ const dotRingColorMap = {
 };
 
 function preload() {
-  //referenceImg = loadImage('image/Group_Pic.jpg');
+  referenceImg = loadImage('image/Group_Pic.jpg');
 }
 
 function setup() {
   createCanvas(imgSize * 2 + padding, imgSize);
-  //referenceImg.resize(imgSize, imgSize); // make both 500
+  referenceImg.resize(imgSize, imgSize); // make both 500
   noLoop();
 
-  //set circle and its docoration
+  
   setupCircle();
+
   setupDotRings();
   setupInnerDotRings()
   setupSpokeRings();
+
   setupRingFill()
   setupPinkCurveSet();
-  //set chain
   setupChains();
   
 }
 
-//window resize
-function windowResized() {
-  const availableWidth = windowWidth;
-  scaleFactor = min(availableWidth / (imgSize * 2 + padding), 1); // 保持最大为1
-  resizeCanvas(windowWidth, imgSize * scaleFactor);
-  redraw();
-}
 
-//
+
 function draw() {
   background(255);
-  scale(scaleFactor); // window scale
+
   // draw part
   noStroke();
   fill('#2D5574');
   rect(0, 0, imgSize, imgSize);
-
-  //draw each part array
   for (let basicCircle of basicCircles) {
     basicCircle.display();
   }
   for (const idr of innerDotRings) idr.display();
 
   for (const dr of dotRings) dr.display();
+
+  
 
   for (const sr of spokeRings) sr.display();
 
@@ -103,12 +92,11 @@ function draw() {
   rect(imgSize, 0, padding, imgSize);  
   
   // Refernce pic
-  //image(referenceImg, imgSize + padding, 0);
+  image(referenceImg, imgSize + padding, 0);
 
 }
 
-//Set function for each part
-function setupCircle(){ // basic circle positon, core color and main color set
+function setupCircle(){
 //layout reference up to down, left to right
 //line one 
   basicCircles.push(new BasicCircle(71, 64, 0, 'w'));
@@ -134,14 +122,12 @@ function setupCircle(){ // basic circle positon, core color and main color set
   basicCircles.push(new BasicCircle(480, 510, 1, 'w'));
 }
 
-function setupDotRings() {//Dot set for main area
-  const skip = new Set(['217,27', '125,318', '515,367']); //skip drawing these position
+function setupDotRings() {
+  const skip = new Set(['217,27', '125,318', '515,367']);
 
-  //Traverse all basic circles and generate DotRing
   for (const bc of basicCircles) { 
     if (skip.has(bc.x + ',' + bc.y)) continue;
 
-    //According to map to set each position's color
     const col = dotRingColorMap[bc.x + ',' + bc.y];
     dotRings.push(
       new DotRing(
@@ -153,32 +139,31 @@ function setupDotRings() {//Dot set for main area
   }
 }
 
-function setupSpokeRings() {//Spoke Rings setting
+function setupSpokeRings() { 
   const rings = [
-    // spoke in main area
-    { x: 217, y: 27, inner: 35, outer: 70, col: "#EE1D02" },  // spoke in main area
+    { x: 217, y: 27, inner: 35, outer: 70, col: "#EE1D02" },  // 外圈 spoke
     { x: 125, y: 318, inner: 35, outer: 70, col: "#EE1D02" },
     { x: 515, y: 367, inner: 35, outer: 70, col: "#EE1D02" },
 
-    // spoke in core area
+    // 新增：内圈 10-35
     { x: 280, y: 278, inner: 10, outer: 35, col: "#FD603A" }, 
   ];
 
-  //set each spoke ring according to above data
   for (const r of rings) {
     spokeRings.push(new SpokeRing(r.x, r.y, r.inner, r.outer, 40, 2, r.col));
   }
 }
 
-function setupInnerDotRings() {//Set dot in core part, include pos and col
+function setupInnerDotRings() {
   innerDotRings.push(new DotRing(217, 27, 15, 35, 3, 6, '#FA5F21'));
   innerDotRings.push(new DotRing(19, 204, 15, 35, 3, 6, '#FA5F21'));
   innerDotRings.push(new DotRing(475, 101, 15, 35, 3, 6, '#F5DCF4'));
   innerDotRings.push(new DotRing(125, 318, 15, 35, 3, 6, '#F01318'));
   innerDotRings.push(new DotRing(335, 530, 15, 35, 3, 6, '#5CB677'));
+  
 }
 
-function setupRingFill(){//set core line ring pos and col
+function setupRingFill(){
   ringFills.push(new RingFill(71, 64, 'g'));
   ringFills.push(new RingFill(169, 177,'r'));
   ringFills.push(new RingFill(319, 137, 'b'));
@@ -188,7 +173,7 @@ function setupRingFill(){//set core line ring pos and col
   ringFills.push(new RingFill(515, 367, 'g'));
 }
 
-function setupPinkCurveSet() {//set pink curve pos
+function setupPinkCurveSet() {
   const curvePairs = [
     [[ 71,  64], [100, 146]],
     [[169, 177], [245, 119]],
@@ -201,7 +186,7 @@ function setupPinkCurveSet() {//set pink curve pos
   pinkCurveSet = new PinkCurveSet(curvePairs, 35);
 }
 
-function setupChains() {//set each chain pos, step num, step size
+function setupChains() {
 //line1
   chains.push(new ChainLink([5,3], [-10,114], 5, 4));
   chains.push(new ChainLink([131,4], [160,91], 6, 6));
@@ -246,8 +231,6 @@ chains.push(new ChainLink([450,430], [435,330], 4, 2));
 chains.push(new ChainLink([450,430], [513,440], 4, 2));
 chains.push(new ChainLink([405,510], [399,475], 3, 3));
 }
-
-
 //Circle Part
 //Circle Part
 //Circle Part
@@ -255,8 +238,8 @@ class BasicCircle {
   constructor(x, y, colorFlag = 0, outerType = '') {
     this.x = x;
     this.y = y;
-    this.outerRadius = 70; //Outer circle radius
-    this.innerRadius = 35; //Inner circle radius, main circle area is 35-70
+    this.outerRadius = 70;
+    this.innerRadius = 35;
     this.colorFlag = colorFlag; // 0 = green, 1 = red
     this.outerType = outerType; // '' | 'w' | 'y'
   }
@@ -264,17 +247,17 @@ class BasicCircle {
   display() {
     noStroke();
 
-    // Outer circle (based on outerType) 35-70
+    // Outer circle (based on outerType)
     if (this.outerType === 'w') {
       fill('#ffffff'); // white
     } else if (this.outerType === 'y') {
       fill('#FEA80F'); // yellow
     } else {
-      fill('#FEA80F'); // default
+      fill('#FEA80F'); // default khaki
     }
     circle(this.x, this.y, this.outerRadius * 2);
 
-    // Draw inner circle in fixed purple
+    // Inner circle
     fill('#A9639C');
     circle(this.x, this.y, this.innerRadius * 2);
 
@@ -285,22 +268,21 @@ class BasicCircle {
     fill(ringFill);
     circle(this.x, this.y, 20); // radius 10
 
-    // center gray dot overlay
+    // Gray center dot (on top!)
     noStroke();
     fill(150);
     circle(this.x, this.y, 10); // radius 5
   }
 }
 
-class RingFill {//set line ring circle logic
+class RingFill {
   constructor(x, y, colorFlag = 'r', innerRadius = 10, outerRadius = 35, count = 5) {
     this.x = x;
     this.y = y;
     this.innerRadius = innerRadius;
     this.outerRadius = outerRadius;
-    this.count = count; //Number of rings
+    this.count = count;
 
-    //Set stroke color based on flag , g is green b is blue
     if (colorFlag === 'g') {
       this.color = color(0, 204, 102); // green
     } else if (colorFlag === 'b') {
@@ -310,12 +292,11 @@ class RingFill {//set line ring circle logic
     }
   }
 
-  display() { //draw a the ring outlines
+  display() {
     noFill();
     stroke(this.color);
     strokeWeight(3);
 
-    //Draw count number of rings
     for (let i = 0; i < this.count; i++) {
       let r = map(i, 0, this.count - 1, this.innerRadius, this.outerRadius);
       circle(this.x, this.y, r * 2);
@@ -323,33 +304,29 @@ class RingFill {//set line ring circle logic
   }
 }
 
-class PinkCurveSet {//set pink curve log
+class PinkCurveSet {
   constructor(curvePairs, offset = 40) {
-    this.curvePairs = curvePairs; //List of point pairs
-    this.offset     = offset; //point vertical offset
+    this.curvePairs = curvePairs;
+    this.offset     = offset;
   }
 
-  //Draw pink curve between two points using quadratic curve
   drawPinkCurve(start, end) {
     const [x1, y1] = start;
     const [x4, y4] = end;
     const midX = (x1 + x4) / 2;
     const midY = (y1 + y4) / 2;
 
-    //Flip control direction for specific pairs
     const downSet = new Set([
       '71,64,100,146',
       '80,458,176,481',
       '366,-3,451,28'
     ]);
 
-    //Compute pos to define curve bending
     const key = `${x1},${y1},${x4},${y4}`;
     const dir = downSet.has(key) ? +this.offset : -this.offset;
     const ctrlY = midY + dir;
     const ctrlX = midX - Math.sign(x4 - x1) * this.offset;
 
-    //using quadraticVertex
     push();
     stroke(255, 28, 90);
     strokeWeight(5);
@@ -357,7 +334,7 @@ class PinkCurveSet {//set pink curve log
     noFill();
 
     beginShape();
-    vertex(x1, y1); //Start point
+    vertex(x1, y1);
     quadraticVertex(ctrlX, ctrlY, x4, y4);
     endShape();
 
@@ -366,7 +343,7 @@ class PinkCurveSet {//set pink curve log
 }
 
 
-class DotRing {//set dot circle logic
+class DotRing {
   constructor(
     x,
     y,
@@ -385,7 +362,7 @@ class DotRing {//set dot circle logic
     this.col = col;
   }
 
-  display() { //set what look like
+  display() {
     push();
     noStroke();
     fill(this.col);
@@ -412,7 +389,7 @@ class DotRing {//set dot circle logic
   }
 }
 
-class SpokeRing {//set spoke ring logic
+class SpokeRing {
   constructor(
     x, y,
     innerR, outerR,
@@ -429,7 +406,7 @@ class SpokeRing {//set spoke ring logic
     this.col = col;
   }
 
-  display() {//Set up drawing style
+  display() {
     push();
     noFill();
     stroke(this.col);
@@ -437,15 +414,12 @@ class SpokeRing {//set spoke ring logic
     strokeCap(ROUND);
     strokeJoin(ROUND);
 
-    //Offset for inner and outer points to avoid overflow due to stroke(Ai suggest)
     const outerOffset = 1 * this.sw;
     const innerOffset = 1 * this.sw;
 
-    //Calculate number of vertices and angle step(Help by chatgpt)
     const totalVerts = this.nSpikes * 2;
     const step = TWO_PI / totalVerts;
 
-    //Draw
     beginShape();
     for (let i = 0; i < totalVerts; i++) {
       const ang = i * step;
@@ -470,26 +444,22 @@ class SpokeRing {//set spoke ring logic
 //Chain Part
 class ChainLink {
   constructor(p1, p2, steps = 6, thickness = 5) {
-    this.p1 = createVector(...p1); // vector from first endpoint
-    this.p2 = createVector(...p2); // vector from second endpoint
-    this.steps = steps;            // how many step between two point
-    this.thickness = thickness;    // step size
+    this.p1 = createVector(...p1);
+    this.p2 = createVector(...p2);
+    this.steps = steps;
+    this.thickness = thickness;
   }
 
   display() {
-    //Prepare ellipse chain direction and size info
     let dir = p5.Vector.sub(this.p2, this.p1);
     let totalDist = dir.mag();
     let segmentLength = totalDist / this.steps;
-    let ellipseWidth = segmentLength; 
+    let ellipseWidth = segmentLength; // 改为满宽防止间隙
 
-    //Loop to draw ellipse chain links
     for (let i = 0; i < this.steps; i++) {
       let t = (i + 0.5) / this.steps;
       let pos = p5.Vector.lerp(this.p1, this.p2, t);
       push();
-
-      //Make sure the connection fill ellipse orientation shape is correct
       translate(pos.x, pos.y);
       rotate(dir.heading());
       stroke('#D26728');
@@ -498,11 +468,11 @@ class ChainLink {
       ellipse(0, 0, ellipseWidth, this.thickness);
       pop();
     }
-    // draw anchor dots at both ends
+
     this.drawAnchorDot(this.p1);
     this.drawAnchorDot(this.p2);
   }
-  //anchor dot drawing Para
+
   drawAnchorDot(p) {
     noStroke();
     fill('#DE6E2C');
@@ -513,3 +483,4 @@ class ChainLink {
     circle(p.x, p.y, 10);
   }
 }
+

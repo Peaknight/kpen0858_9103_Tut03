@@ -63,7 +63,7 @@ function setup() {
 //window resize
 function windowResized() {
   const availableWidth = windowWidth;
-  scaleFactor = min(availableWidth / (imgSize * 2 + padding), 1); // 保持最大为1
+  scaleFactor = min(availableWidth / (imgSize * 2 + padding), 1);
   resizeCanvas(windowWidth, imgSize * scaleFactor);
   redraw();
 }

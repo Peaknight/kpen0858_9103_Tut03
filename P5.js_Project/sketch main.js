@@ -46,7 +46,7 @@ function preload() {
 function setup() {
   createCanvas(imgSize * 2 + padding, imgSize);
   //referenceImg.resize(imgSize, imgSize); // make both 500
-  //noLoop();
+  noLoop();
 
   //set circle and its docoration
   setupCircle();
@@ -68,23 +68,6 @@ function windowResized() {
   redraw();
 }
 
-function mousePressed() {
-  for (const dr of dotRings) {
-    let d = dist(mouseX, mouseY, dr.x, dr.y);
-    if (d < dr.outerR) {
-      dr.isDragging = true;
-      dr.lastAngle = atan2(mouseY - dr.y, mouseX - dr.x);
-    }
-  }
-}
-
-function mouseReleased() {
-  for (const dr of dotRings) {
-    dr.isDragging = false;
-    dr.lastAngle = null;
-  }
-}
-
 //
 function draw() {
   background(255);
@@ -100,21 +83,8 @@ function draw() {
   }
   for (const idr of innerDotRings) idr.display();
 
-  for (let dr of dotRings) {
-    if (dr.isDragging) {
-      let mx = mouseX;
-      let my = mouseY;
-      let currentAngle = atan2(my - dr.y, mx - dr.x);
+  for (const dr of dotRings) dr.display();
 
-      if (dr.lastAngle !== null) {
-        let angleDiff = currentAngle - dr.lastAngle;
-        dr.angleOffset += angleDiff;
-      }
-
-      dr.lastAngle = currentAngle;
-    }
-    dr.display();
-  }
   for (const sr of spokeRings) sr.display();
 
   for (let rf of ringFills) rf.display();
@@ -402,8 +372,16 @@ class PinkCurveSet {//set pink curve log
 }
 
 
-class DotRing {
-  constructor(x, y, innerR, outerR, rows = 5, dotDiam = 6, col = '#05127E') {
+class DotRing {//set dot circle logic
+  constructor(
+    x,
+    y,
+    innerR,
+    outerR,
+    rows = 5,
+    dotDiam = 6,
+    col = '#05127E'
+  ) {
     this.x = x;
     this.y = y;
     this.innerR = innerR;
@@ -411,28 +389,27 @@ class DotRing {
     this.rows = rows;
     this.dotDiam = dotDiam;
     this.col = col;
-
-    this.angleOffset = 0;
-    this.isDragging = false;
-    this.lastAngle = null;
   }
 
-  display() {
+  display() { //set what look like
     push();
     noStroke();
     fill(this.col);
 
     for (let i = 0; i < this.rows; i++) {
+      // The radius of the current circle
       const r = lerp(
         this.innerR + this.dotDiam * 0.5,
         this.outerR - this.dotDiam * 0.5,
         i / (this.rows - 1)
       );
 
+      // Calculate how many points are needed in this circle based on the circumference
       const numDots = floor((TWO_PI * r) / (this.dotDiam * 1.6));
 
-      for (let j = 0; j < numDots; j++) {
-        const ang = (TWO_PI * j) / numDots + this.angleOffset;
+      for (let j = 0; j < numDots; j++) { //the calculated function was help by chatgpt
+        const ang = (TWO_PI * j) / numDots; //Calculate the angle of each point to ensure equal spacing
+        //Calculate the position by using polar coordinates to Cartesian coordinates
         const dx = this.x + r * cos(ang);
         const dy = this.y + r * sin(ang);
         circle(dx, dy, this.dotDiam);
@@ -508,8 +485,7 @@ class ChainLink {
     this.p1 = createVector(...p1); // vector from first endpoint
     this.p2 = createVector(...p2); // vector from second endpoint
     this.steps = steps;            // how many step between two point
-    this.thickness = thickness;
-    this.color = color(random(255), random(255), random(255));   // step size
+    this.thickness = thickness;    // step size
   }
 
   display() {
@@ -530,7 +506,7 @@ class ChainLink {
       rotate(dir.heading());
       stroke('#D26728');
       strokeWeight(1.5);
-      fill(this.color);
+      fill(random(255), random(255), random(255));
       ellipse(0, 0, ellipseWidth, this.thickness);//The course did not mention elliptic functions in detail,
       //but p5 actually provides them and they are used similarly to circle or other graphic functions.
       pop();

@@ -68,6 +68,8 @@ function windowResized() {
   redraw();
 }
 
+
+//check mouse is pressed or not and calculate rotate movement
 function mousePressed() {
   for (const dr of dotRings) {
     let d = dist(mouseX, mouseY, dr.x, dr.y);
@@ -78,6 +80,7 @@ function mousePressed() {
   }
 }
 
+//stop interactive when mouse released
 function mouseReleased() {
   for (const dr of dotRings) {
     dr.isDragging = false;
@@ -402,7 +405,7 @@ class PinkCurveSet {//set pink curve log
 }
 
 
-class DotRing {
+class DotRing {//set dot circle logic
   constructor(x, y, innerR, outerR, rows = 5, dotDiam = 6, col = '#05127E') {
     this.x = x;
     this.y = y;
@@ -417,22 +420,24 @@ class DotRing {
     this.lastAngle = null;
   }
 
-  display() {
+  display() {//set what look like
     push();
     noStroke();
     fill(this.col);
 
     for (let i = 0; i < this.rows; i++) {
+      // The radius of the current circle
       const r = lerp(
         this.innerR + this.dotDiam * 0.5,
         this.outerR - this.dotDiam * 0.5,
         i / (this.rows - 1)
       );
-
+      // Calculate how many points are needed in this circle based on the circumference
       const numDots = floor((TWO_PI * r) / (this.dotDiam * 1.6));
 
-      for (let j = 0; j < numDots; j++) {
-        const ang = (TWO_PI * j) / numDots + this.angleOffset;
+      for (let j = 0; j < numDots; j++) {//the calculated function was help by chatgpt
+        const ang = (TWO_PI * j) / numDots + this.angleOffset;//Calculate the angle of each point to ensure equal spacing
+        //Calculate the position by using polar coordinates to Cartesian coordinates
         const dx = this.x + r * cos(ang);
         const dy = this.y + r * sin(ang);
         circle(dx, dy, this.dotDiam);

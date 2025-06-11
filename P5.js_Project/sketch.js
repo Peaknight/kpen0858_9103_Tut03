@@ -141,7 +141,7 @@ function setupDotRings() {//Dot set for main area
   for (const bc of basicCircles) { 
     if (skip.has(bc.x + ',' + bc.y)) continue;
     //The Continue statement can skip the loop and enter the next loop. 
-    
+
     //According to map to set each position's color
     const col = dotRingColorMap[bc.x + ',' + bc.y];
     dotRings.push(

@@ -1,12 +1,12 @@
 # kpen0858_9103_Tut03 Group G
 # Creative coding major project: Individual part
 ## 1.How to interact  
-This project supports mouse and keyboard interaction:
-**Use mouse to drag the dot circle ring to rotate**   
+This project supports mouse and keyboard interaction:  
+### Use mouse to drag the dot circle ring to rotate   
 Select any dot circle ring area on the edge of any circle, __press the mouse left button and rotate around the center of the circle__, and you can control the dot ring in the area to rotate with the direction of the mouse, with a real rotational inertia effect.  
-**Use keyboard "E" key triggers global rotation**  
+### Use keyboard "E" key triggers global rotation  
 Users can __tap the E key on the keyboard__ to start the rotation effect of the global Dot circle ring.  
-**Automatic Rotation Mechanism**  
+### Automatic Rotation Mechanism  
 When the rotation speed of __any dot interactive area reaches a certain threshold__, the dot point circle in that area will continue to rotate automatically and can be __stopped using the mouse or keyboard E__
 
 ## 2.Select the animation drive method:

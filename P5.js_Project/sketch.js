@@ -107,15 +107,21 @@ function draw() {
     if (dr.isDragging) {
       let mx = mouseX;
       let my = mouseY;
-      let currentAngle = atan2(my - dr.y, mx - dr.x);
+      let currentAngle = atan2(my - dr.y, mx - dr.x); //Althought course have clock demo for angle calculated,
+      //  but there no any demo about calculated the angle between mouse position and angle center,
+      // when I check p5.js and ask help from Gemin, I got atan function which can do this part. 
 
       if (dr.lastAngle !== null) {
         let angleDiff = currentAngle - dr.lastAngle;
+        dr.angularVelocity = angleDiff;//Record velocity of angle
         dr.angleOffset += angleDiff;
       }
-
-      dr.lastAngle = currentAngle;
+      dr.lastAngle = currentAngle;     
+    }else{//when user released mouse dragging, the velocity will shown
+      dr.angleOffset += dr.angularVelocity; 
+      dr.angularVelocity *= 0.95;
     }
+
     dr.display();
   }
   for (const sr of spokeRings) sr.display();
@@ -415,9 +421,13 @@ class DotRing {//set dot circle logic
     this.dotDiam = dotDiam;
     this.col = col;
 
+    //These figure for personal update which aim to use mouse to rotated the dot point
     this.angleOffset = 0;
     this.isDragging = false;
     this.lastAngle = null;
+
+
+    this.angularVelocity = 0;//velocity para
   }
 
   display() {//set what look like

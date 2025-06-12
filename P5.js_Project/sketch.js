@@ -1,3 +1,10 @@
+//Kpen0858 Group G work. personal Code. 
+//You Can try press you mouse left button to rotated any big dot ring. 
+//OR Use key "E" to click to rotated all big dot rings.
+//When there rotated speed meet requirement, it will auto rotated.
+//Can stop by click "E" or mouse press. 
+
+
 //let referenceImg; //Pictures to be copied
 
 let scaleFactor = 1;//set window scale to 1 max
@@ -74,8 +81,22 @@ function mousePressed() {
   for (const dr of dotRings) {
     let d = dist(mouseX, mouseY, dr.x, dr.y);
     if (d < dr.outerR) {
-      dr.isDragging = true;
-      dr.lastAngle = atan2(mouseY - dr.y, mouseX - dr.x);
+      dr.isDragging = true; 
+
+      // use atan function to calculate the 
+      // angle between mouse and circle centre
+      dr.lastAngle = atan2(mouseY - dr.y, mouseX - dr.x); 
+
+      dr.isAutoRo = false; //set auto rotated false 
+    }
+  }
+}
+
+function keyPressed() {//Press E to rotated dot points
+  if (key === 'e' || key === 'E') {
+    for (let dr of dotRings) {
+      dr.angularVelocity += random(-0.1, 0.3); 
+      dr.isAutoRo = false; //set auto rotated false 
     }
   }
 }
@@ -103,27 +124,8 @@ function draw() {
   }
   for (const idr of innerDotRings) idr.display();
 
-  for (let dr of dotRings) {
-    if (dr.isDragging) {
-      let mx = mouseX;
-      let my = mouseY;
-      let currentAngle = atan2(my - dr.y, mx - dr.x); //Althought course have clock demo for angle calculated,
-      //  but there no any demo about calculated the angle between mouse position and angle center,
-      // when I check p5.js and ask help from Gemin, I got atan function which can do this part. 
+  updateDotCircle();
 
-      if (dr.lastAngle !== null) {
-        let angleDiff = currentAngle - dr.lastAngle;
-        dr.angularVelocity = angleDiff;//Record velocity of angle
-        dr.angleOffset += angleDiff;
-      }
-      dr.lastAngle = currentAngle;     
-    }else{//when user released mouse dragging, the velocity will shown
-      dr.angleOffset += dr.angularVelocity; 
-      dr.angularVelocity *= 0.95;
-    }
-
-    dr.display();
-  }
   for (const sr of spokeRings) sr.display();
 
   for (let rf of ringFills) rf.display();
@@ -144,6 +146,39 @@ function draw() {
   // Refernce pic
   //image(referenceImg, imgSize + padding, 0);
 
+}
+
+function updateDotCircle(){
+  for (let dr of dotRings) {
+  if (dr.isDragging) {
+    let mx = mouseX;
+    let my = mouseY;
+    let currentAngle = atan2(my - dr.y, mx - dr.x);//Althought course have clock demo for angle calculated,
+    //  but there no any demo about calculated the angle between mouse position and angle center,
+    // when I check p5.js and ask help from Gemin, I got atan function which can do this part. 
+
+    if (dr.lastAngle !== null) {
+      let angleDiff = currentAngle - dr.lastAngle;
+      dr.angularVelocity = angleDiff;//Record velocity of angle
+      dr.angleOffset += angleDiff;
+
+      if (abs(dr.angularVelocity) > 1) {
+        dr.isAutoRo = true; 
+      }
+    }
+
+    dr.lastAngle = currentAngle;
+  } else {//when user released mouse dragging, the velocity will shown
+    if (dr.isAutoRo) {
+      dr.angleOffset += dr.angularVelocity;
+    } else {
+      dr.angleOffset += dr.angularVelocity;
+      dr.angularVelocity *= 0.95;
+    }
+  }
+
+  dr.display();
+}
 }
 
 //Set function for each part
@@ -421,13 +456,15 @@ class DotRing {//set dot circle logic
     this.dotDiam = dotDiam;
     this.col = col;
 
-    //These figure for personal update which aim to use mouse to rotated the dot point
+    //These figure for personal update which aim to use mouse to rotated the dot
     this.angleOffset = 0;
     this.isDragging = false;
     this.lastAngle = null;
 
 
     this.angularVelocity = 0;//velocity para
+
+    this.isAutoRo = false;//check is auto rotated or not
   }
 
   display() {//set what look like

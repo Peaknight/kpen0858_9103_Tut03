@@ -104,7 +104,7 @@ function keyPressed() {//Press E to rotated dot points
 
 //stop interactive when mouse released
 function mouseReleased() {
-  for (const dr of dotRings) {
+  for (const dr of dotRings) { // set both false or null to stop give any angle force
     dr.isDragging = false;
     dr.lastAngle = null;
   }
@@ -172,10 +172,10 @@ function updateDotCircle(){
     dr.lastAngle = currentAngle;
   } else {//when user released mouse dragging, the velocity will shown
     if (dr.isAutoRo) {
-      dr.angleOffset += dr.angularVelocity;
+      dr.angleOffset += dr.angularVelocity; //auto rotate
     } else {
       dr.angleOffset += dr.angularVelocity;
-      dr.angularVelocity *= 0.95;
+      dr.angularVelocity *= 0.95; //friction data, make non auto rotation speed slow then stop
     }
   }
 

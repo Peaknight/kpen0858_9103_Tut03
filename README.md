@@ -1,6 +1,6 @@
 # kpen0858_9103_Tut03 Group G
 # Creative coding major project: Individual part
-## 1.How to interact
+## 1.How to interact  
 This project supports mouse and keyboard interaction:
 **Use mouse to drag the dot circle ring to rotate**   
 Select any dot circle ring area on the edge of any circle, __press the mouse left button and rotate around the center of the circle__, and you can control the dot ring in the area to rotate with the direction of the mouse, with a real rotational inertia effect.  

@@ -85,6 +85,7 @@ function mousePressed() {
 
       // use atan function to calculate the 
       // angle between mouse and circle centre
+      // Atan function learned from https://p5js.org/reference/p5/atan2/
       dr.lastAngle = atan2(mouseY - dr.y, mouseX - dr.x); 
 
       dr.isAutoRo = false; //set auto rotated false 
@@ -158,6 +159,7 @@ function updateDotCircle(){
     // when I check p5.js and ask help from Gemin, I got atan function which can do this part. 
 
     if (dr.lastAngle !== null) {
+      //Achieving acceleration effect
       let angleDiff = currentAngle - dr.lastAngle;
       dr.angularVelocity = angleDiff;//Record velocity of angle
       dr.angleOffset += angleDiff;

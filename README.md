@@ -1,5 +1,48 @@
-# kpen0858_9103_Tut03
-# Quiz 8: Design Research
+# kpen0858_9103_Tut03 Group G
+# Creative coding major project: Individual part
+## 1.How to interact
+This project supports mouse and keyboard interaction:
+**Use mouse to drag the dot circle ring to rotate** 
+Select any dot circle ring area on the edge of any circle, __press the mouse left button and rotate around the center of the circle__, and you can control the dot ring in the area to rotate with the direction of the mouse, with a real rotational inertia effect.
+**Use keyboard "E" key triggers global rotation**  
+Users can __tap the E key on the keyboard__ to start the rotation effect of the global Dot circle ring.
+**Automatic Rotation Mechanism**
+When the rotation speed of __any dot interactive area reaches a certain threshold__, the dot point circle in that area will continue to rotate automatically and can be __stopped using the mouse or keyboard E__
+
+## 2.Select the animation drive method:
+I chose User Input as the core mechanism that drives my personal code interaction.
+
+## 3.Image properties and their differences in animation
+
+
+## 4.Inspiration
+Refer to the Quiz 8: Design Research section below, inspired by the mouse rotation control in __"Remember Me"__ and the mouse control of fire direction and speed in the __Smoke Particles__ example in P5.js.
+![Rotated effect in game](image/part1.gif)
+![Smoke affect when mouse move left](image/part2.jpg)
+![Smoke affect when mouse move right](image/part2_1.jpg)
+
+## 5.Technical Description
+### I used the following technique to implement the rotation animation logic:
+1. Use __atan2()__ function to calculate the angle of the mouse relative to the center of the circle.
+2. Use __mousePressed()__ to Record the mouse press operation and initial angle figure.
+3. Use __updateDotCircle()__ function to continuously update the angle difference to obtain the angular velocity.
+4. Use __angleOffset__ to record and control the rotation angle offset of the entire graphic to create an animation effect.
+5. Use __dr.angularVelocity *= 0.95;__ to simulating friction effect.
+6. Use __angleDiff__ to record angle different of the mouse drag, the __angularVelocity__ is rotation angular velocity which to dynamically updated to achieve an acceleration effect driven by user operations.
+**Acknowledgement**
+7. I studied the code and referred to the official P5.js documentation. I also used AI such as Chatgpt and Gemini to assist in code understanding, including formula calculations.
+### Change description of the original group code:
+1. Added new properties __angleOffset, angularVelocity, isDragging, lastAngle__ to DotRing class.
+2. Added __Function updateDotCircle()__ to store and rewrite dotpoint drawing logic and add mouse dragging and automatic rotation control.
+3. added __keyPressed(), mousePressed(), mouseReleased()__ is used to trigger global and manual rotation logic.
+
+
+
+
+
+---
+
+# Appendix: Quiz 8: Design Research
 ## Group image
 ![Group image](image/Group_Pic.jpg)
 ## Part 1: Imaging Technique Inspiration
